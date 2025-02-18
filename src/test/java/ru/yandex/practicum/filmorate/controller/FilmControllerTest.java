@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controllertest;
+package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +24,7 @@ public class FilmControllerTest {
     FilmController filmController;
 
     @BeforeEach
-    void start() {
+    void start() { // Инициализирую перед каждым тестом, чтобы обнулить контроллер и тесты не зависели друг от друга
         filmController = new FilmController();
     }
 

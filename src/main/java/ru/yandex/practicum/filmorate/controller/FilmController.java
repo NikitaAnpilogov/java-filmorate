@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controllertest;
+package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +54,7 @@ public class FilmController {
         validate(film);
         film.setId(getNextId());
         films.put(film.getId(), film);
-        log.info("Success");
+        log.info("Валидация прошла, фильм успешно добавлен");
         return film;
     }
 
@@ -71,7 +71,7 @@ public class FilmController {
             oldFilm.setDescription(film.getDescription());
             oldFilm.setReleaseDate(film.getReleaseDate());
             oldFilm.setDuration(film.getDuration());
-            log.info("Success");
+            log.info("Валидация прошла, фильм успешно обновлен");
             return oldFilm;
         } else {
             log.warn("Id не найден");

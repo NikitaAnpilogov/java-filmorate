@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controllertest;
+package ru.yandex.practicum.filmorate.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -59,7 +59,7 @@ public class UserController {
             user.setName(user.getLogin());
         }
         users.put(user.getId(), user);
-        log.info("Success");
+        log.info("Валидация прошла, user успешно добавлен");
         return user;
     }
 
@@ -80,7 +80,7 @@ public class UserController {
             }
             oldUser.setEmail(user.getEmail());
             oldUser.setBirthday(user.getBirthday());
-            log.info("Success");
+            log.info("Валидация прошла, user успешно обновлен");
             return oldUser;
         } else {
             log.warn("Id не найден");
