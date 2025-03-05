@@ -13,7 +13,7 @@ public class FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
     private final Set<Film> popularFilms = new TreeSet<>(Comparator.comparingInt(film -> film.getWhoLiked().size()));
-    private final int POPULAR_DEFAULT = 10;
+    public final int POPULAR_DEFAULT = 10;
 
     @Autowired
     public FilmService(FilmStorage filmStorage, UserStorage userStorage) {
