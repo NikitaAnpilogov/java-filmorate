@@ -11,7 +11,6 @@ import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Optional;
 
 public class UserControllerTest {
     User normalUser = new User(1, "abc@mail.ru", "login1", "name1", LocalDate.of(2000, 1, 1));
