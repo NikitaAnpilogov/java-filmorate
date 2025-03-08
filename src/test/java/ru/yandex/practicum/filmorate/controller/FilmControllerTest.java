@@ -141,7 +141,7 @@ public class FilmControllerTest {
         filmController = new FilmController(new FilmService(new InMemoryFilmStorage(), inMemoryUserStorage));
         filmController.addFilm(normalFilm);
         filmController.addLike(normalFilm.getId(), 1);
-        Assertions.assertEquals(1, normalFilm.getWholiked().size(), "Не лайкнули фильм");
+        Assertions.assertEquals(1, normalFilm.getLike().size(), "Не лайкнули фильм");
     }
 
     @Test
@@ -153,7 +153,7 @@ public class FilmControllerTest {
         filmController.addFilm(normalFilm);
         filmController.addLike(normalFilm.getId(), 1);
         filmController.removeLike(normalFilm.getId(), 1);
-        Assertions.assertEquals(0, normalFilm.getWholiked().size(), "Не удалили лайк");
+        Assertions.assertEquals(0, normalFilm.getLike().size(), "Не удалили лайк");
     }
 
     @Test
