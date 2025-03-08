@@ -92,4 +92,12 @@ public class InMemoryUserStorage implements UserStorage {
             throw new NotFoundException("User не найден");
         }
     }
+
+    public boolean checkUser(Integer id) {
+        if (users.containsKey(id)) {
+            return true;
+        } else {
+            throw new NotFoundException("User не найден");
+        }
+    }
 }

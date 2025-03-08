@@ -12,13 +12,13 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = {"id"})
 @NoArgsConstructor
-public class Film {
+public class Film implements Comparable<Film> {
     private Integer id;
     private String name;
     private String description;
     private LocalDate releaseDate;
     private Integer duration;
-    private Set<Integer> whoLiked = new HashSet<>();
+    private Set<Integer> like = new HashSet<>();
 
     public Film(Integer id, String name, String description, LocalDate releaseDate, Integer duration) {
         this.id = id;
@@ -36,14 +36,19 @@ public class Film {
     }
 
     public void addLike(Integer userId) {
-        whoLiked.add(userId);
+        like.add(userId);
     }
 
     public void removeLike(Integer userId) {
-        if (whoLiked.contains(userId)) {
-            whoLiked.remove(userId);
+        if (like.contains(userId)) {
+            like.remove(userId);
         } else {
             throw new NotFoundException("like не был поставлен ранее");
         }
+    }
+
+    @Override
+    public int compareTo(Film film) {
+        return this.getLike().size() - film.getLike().size();
     }
 }

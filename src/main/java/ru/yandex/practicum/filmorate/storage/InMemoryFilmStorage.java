@@ -13,6 +13,8 @@ import java.util.*;
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
     private final Map<Integer, Film> films = new HashMap<>();
+    private final Set<Film> popularFilms = new TreeSet<>();
+    private final int popularDefault = 10;
 
     private Integer getNextId() {
         int currentMaxId = films.keySet()
@@ -50,6 +52,7 @@ public class InMemoryFilmStorage implements FilmStorage {
         validate(film);
         film.setId(getNextId());
         films.put(film.getId(), film);
+        popularFilms.add(film);
         log.info("Валидация прошла, фильм успешно добавлен");
         return film;
     }
@@ -66,7 +69,8 @@ public class InMemoryFilmStorage implements FilmStorage {
             oldFilm.setDescription(film.getDescription());
             oldFilm.setReleaseDate(film.getReleaseDate());
             oldFilm.setDuration(film.getDuration());
-            oldFilm.setWhoLiked(film.getWhoLiked());
+            oldFilm.setLike(film.getLike());
+            popularFilms.add(oldFilm);
             log.info("Валидация прошла, фильм успешно обновлен");
             return oldFilm;
         } else {
@@ -81,5 +85,24 @@ public class InMemoryFilmStorage implements FilmStorage {
         } else {
             throw new NotFoundException("Фильм с таким id не найден");
         }
+    }
+
+    public List<Film> getPopularFilms(Integer count) {
+        if (count == null) {
+            count = popularDefault;
+        }
+        List<Film> popular = new ArrayList<>();
+        for (Film film : popularFilms) {
+            popular.add(film);
+            --count;
+            if (count <= 0) {
+                break;
+            }
+        }
+        return popular.reversed();
+    }
+
+    public void updatePopularFilm(Film film) {
+        popularFilms.add(film);
     }
 }
