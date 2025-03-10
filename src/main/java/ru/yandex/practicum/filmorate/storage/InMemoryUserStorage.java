@@ -27,11 +27,11 @@ public class InMemoryUserStorage implements UserStorage {
 
     private boolean validate(User user) {
         boolean isLogin = false;
-        if (user.getEmail().indexOf("@") < 0 || user.getEmail() == null || user.getEmail().isBlank()) {
+        if (!user.getEmail().contains("@") || user.getEmail().isBlank()) {
             log.warn("Электронная почта не может быть пустой и должна содержать символ @");
             throw new ValidationException("Электронная почта не может быть пустой и должна содержать символ @");
         }
-        if (user.getLogin().isBlank() || user.getLogin() == null || user.getLogin().indexOf(" ") >= 0) {
+        if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
             log.warn("Логин не может быть пустым и содержать пробелы");
             throw new ValidationException("Логин не может быть пустым и содержать пробелы");
         }

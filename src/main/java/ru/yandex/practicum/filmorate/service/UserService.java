@@ -54,9 +54,7 @@ public class UserService {
     public Collection<User> getFriends(Integer id) {
         User user = userStorage.getUser(id);
         return user.getFriends().stream()
-                .map(x -> {
-                    return userStorage.getUser(x);
-                })
+                .map(userStorage::getUser)
                 .collect(Collectors.toList());
     }
 
@@ -68,8 +66,8 @@ public class UserService {
             User secondUser = userStorage.getUser(secondId);
             Set<Integer> friendsOfSecondUser = secondUser.getFriends();
             return firstUser.getFriends().stream()
-                    .filter(x -> friendsOfSecondUser.contains(x))
-                    .map(x -> userStorage.getUser(x))
+                    .filter(friendsOfSecondUser::contains)
+                    .map(userStorage::getUser)
                     .collect(Collectors.toSet());
         }
     }

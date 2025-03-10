@@ -46,8 +46,6 @@ public class User {
     }
 
     public void removeFriend(Integer id) {
-        if (friends.contains(id)) {
-            friends.remove(id);
-        }
+        friends.remove(id);
     }
 }

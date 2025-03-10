@@ -36,8 +36,7 @@ public class FilmService {
         userStorage.checkUser(userId);
         film.addLike(userId);
         filmStorage.updatePopularFilm(film);
-        filmStorage.updateFilm(film);
-        return film;
+        return filmStorage.updateFilm(film);
     }
 
     public Film removeLike(Integer filmId, Integer userId) {
@@ -45,8 +44,7 @@ public class FilmService {
         userStorage.checkUser(userId);
         film.removeLike(userId);
         filmStorage.updatePopularFilm(film);
-        filmStorage.updateFilm(film);
-        return film;
+        return filmStorage.updateFilm(film);
     }
 
     public List<Film> getPopularFilms(Integer count) {
