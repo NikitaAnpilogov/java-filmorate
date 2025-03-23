@@ -6,11 +6,16 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
+
 import java.time.LocalDate;
 import java.util.Collection;
 
 public class UserControllerTest {
     User normalUser = new User(1, "abc@mail.ru", "login1", "name1", LocalDate.of(2000, 1, 1));
+    User normalUser2 = new User(1, "abcd@mail.ru", "login2", "name2", LocalDate.of(2000, 1, 1));
+    User normalUser3 = new User(1, "abcde@mail.ru", "login3", "name3", LocalDate.of(2000, 1, 1));
     User normalUserWithoutName = new User(1, "abc@mail.ru", "login1", "", LocalDate.of(2000, 1, 1));
     User emptyEmail = new User(1, "", "login2", "name2", LocalDate.of(2000, 1, 1));
     User emailWithoutA = new User(1, "abcmail.ru", "login3", "name3", LocalDate.of(2000, 1, 1));
@@ -23,7 +28,7 @@ public class UserControllerTest {
 
     @BeforeEach
     void start() { // Инициализирую перед каждым тестом, чтобы обнулить контроллер и тесты не зависели друг от друга
-        userController = new UserController();
+        userController = new UserController(new UserService(new InMemoryUserStorage()));
     }
 
     @Test
@@ -113,5 +118,61 @@ public class UserControllerTest {
     void testNotFoundId() {
         userController.addUser(normalUser);
         Assertions.assertThrows(NotFoundException.class, () -> userController.updateUser(notFoundId), "Валидация поиска ID не прошла");
+    }
+
+    @Test
+    void shouldAddAndGetFriend() {
+        userController.addUser(normalUser);
+        userController.addUser(normalUser2);
+        userController.addFriend(normalUser.getId(), normalUser2.getId());
+        Collection<User> friends = userController.getFriendsSecondPath(1, null);
+        Assertions.assertEquals(1, friends.size(), "addFriend or getFriends не работает");
+    }
+
+    @Test
+    void testUnknownFriend() {
+        Assertions.assertThrows(NotFoundException.class, () -> userController.addFriend(4, 5), "Валидация добавления в друзья не прошла");
+    }
+
+    @Test
+    void shouldRemoveFriend() {
+        userController.addUser(normalUser);
+        userController.addUser(normalUser2);
+        userController.addFriend(1, 2);
+        userController.removeFriend(1, 2);
+        Collection<User> friends = userController.getFriendsSecondPath(1, null);
+        Assertions.assertEquals(0, friends.size(), "removeFriend не работает");
+    }
+
+    @Test
+    void testRemoveUnknownFriend() {
+        userController.addUser(normalUser);
+        userController.addUser(normalUser2);
+        userController.addFriend(normalUser.getId(), normalUser2.getId());
+        Assertions.assertThrows(NotFoundException.class, () -> userController.removeFriend(normalUser.getId(), 5), "Валидация удаления из друзей не прошла");
+    }
+
+    @Test
+    void testRemoveUnknownFriend2() {
+        Assertions.assertThrows(NotFoundException.class, () -> userController.removeFriend(normalUser.getId(), 5), "Валидация удаления из друзей не прошла");
+    }
+
+    @Test
+    void shouldGetFriends() {
+        userController.addUser(normalUser);
+        userController.addUser(normalUser2);
+        userController.addUser(normalUser3);
+        userController.addFriend(normalUser.getId(), normalUser3.getId());
+        userController.addFriend(normalUser2.getId(), normalUser3.getId());
+        Collection<User> friends = userController.getFriends(normalUser.getId(), normalUser2.getId());
+        Assertions.assertEquals(1, friends.size(), "getFriends не работает");
+    }
+
+    @Test
+    void testGetFriends() {
+        userController.addUser(normalUser);
+        userController.addUser(normalUser2);
+        userController.addFriend(normalUser.getId(), normalUser2.getId());
+        Assertions.assertThrows(NotFoundException.class, () -> userController.getFriends(normalUser.getId(), 5), "Валидация получения общих друзей не прошла");
     }
 }
