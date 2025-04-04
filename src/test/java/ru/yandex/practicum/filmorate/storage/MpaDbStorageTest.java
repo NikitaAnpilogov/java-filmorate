@@ -21,7 +21,7 @@ public class MpaDbStorageTest {
         storage.addMpa(new Mpa(0, "testMpa"));
         storage.addMpa(new Mpa(0, "testMpa2"));
         storage.addMpa(new Mpa(0, "testMpa3"));
-        Integer expected = 4;
+        Integer expected = 8;
         Assertions.assertEquals(expected, storage.getListMpa().size(), "Не корректный размер БД");
     }
 

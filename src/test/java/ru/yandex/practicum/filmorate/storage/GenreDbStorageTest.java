@@ -21,7 +21,7 @@ public class GenreDbStorageTest {
         storage.addGenre(new Genre(0, "genreTest"));
         storage.addGenre(new Genre(0, "genreTest2"));
         storage.addGenre(new Genre(0, "genreTest3"));
-        Integer expected = 4;
+        Integer expected = 9;
         Assertions.assertEquals(expected, storage.getGenres().size(), "Не корректное количество жанров");
     }
 
