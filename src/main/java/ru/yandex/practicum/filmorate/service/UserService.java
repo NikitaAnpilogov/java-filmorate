@@ -35,12 +35,12 @@ public class UserService {
         return userStorage.getUser(id);
     }
 
-    public Collection<User> addFriend(Integer firsFriend, Integer secondFriend) {
-        User firstUser = userStorage.getUser(firsFriend);
-        User secondUser = userStorage.getUser(secondFriend);
-        Optional<Status> checkSecondInFirst = firstUser.checkFriend(secondFriend);
-        Optional<Status> checkFirstInSecond = secondUser.checkFriend(firsFriend);
-        if (checkSecondInFirst.isEmpty() && checkFirstInSecond.isEmpty()) {
+    public Collection<User> addFriend(Integer firsFriend, Integer secondFriend) {// Дружба односторонняя. Для хранений состояния дружбы я использовал мапу
+        User firstUser = userStorage.getUser(firsFriend);// Ключ это id другого юзера, значение это статус дружбы. Есть 2 статуса. 1 в друзьях, 2 отправил запрос в друзья.
+        User secondUser = userStorage.getUser(secondFriend);// Если пользователи не друзья, то у того кто отправил запрос в мапе появляется второй юзер со статусом отправил запрос
+        Optional<Status> checkSecondInFirst = firstUser.checkFriend(secondFriend);// Если второй юзер ответил взаимностью, то статусы у обоих меняются на в друзьях
+        Optional<Status> checkFirstInSecond = secondUser.checkFriend(firsFriend);// Если первый пользователь повторно отправляет запрос дружбы, а второй все еще на него не ответил, то ничего не происходит
+        if (checkSecondInFirst.isEmpty() && checkFirstInSecond.isEmpty()) {// У удаление из друзей похожая логика, Если пользователи в друзьях, то у первого пользователя второй просто удаляется, а у второго в мапе меняется статус на отправил запрос
             firstUser.addFriend(secondFriend, Status.SENT_REQUEST);
         } else if (checkSecondInFirst.isEmpty() && checkFirstInSecond.isPresent()) {
             firstUser.addFriend(secondFriend, Status.IN_FRIENDS);

@@ -18,17 +18,12 @@ public class GenreDbStorageTest {
 
     @Test
     public void testAddAndGetGenres() {
-        storage.addGenre(new Genre(0, "genreTest"));
-        storage.addGenre(new Genre(0, "genreTest2"));
-        storage.addGenre(new Genre(0, "genreTest3"));
-        Integer expected = 9;
+        Integer expected = 6;
         Assertions.assertEquals(expected, storage.getGenres().size(), "Не корректное количество жанров");
     }
 
     @Test
     public void testGetGenre() {
-        storage.addGenre(new Genre(0, "genreTest"));
-        Genre test = storage.addGenre(new Genre(0, "genreTest2"));
-        Assertions.assertEquals("genreTest2", storage.getGenre(test.getId()).getName(), "Не получили жанр по id");
+        Assertions.assertEquals("Комедия", storage.getGenre(1).getName(), "Не получили жанр по id");
     }
 }

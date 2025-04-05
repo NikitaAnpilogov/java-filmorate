@@ -17,18 +17,13 @@ public class MpaDbStorageTest {
     private MpaDbStorage storage;
 
     @Test
-    public void testAddMpaAndGetListMpa() {
-        storage.addMpa(new Mpa(0, "testMpa"));
-        storage.addMpa(new Mpa(0, "testMpa2"));
-        storage.addMpa(new Mpa(0, "testMpa3"));
-        Integer expected = 8;
+    public void testGetListMpa() {
+        Integer expected = 5;
         Assertions.assertEquals(expected, storage.getListMpa().size(), "Не корректный размер БД");
     }
 
     @Test
     public void testGetMpa() {
-        storage.addMpa(new Mpa(0, "testMpa"));
-        Mpa test = storage.addMpa(new Mpa(0, "testMpa2"));
-        Assertions.assertEquals("testMpa2", storage.getMpa(test.getId()).getName(), "Не получили Mpa");
+        Assertions.assertEquals("G", storage.getMpa(1).getName(), "Не получили Mpa");
     }
 }

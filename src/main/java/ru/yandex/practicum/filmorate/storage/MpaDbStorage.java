@@ -35,10 +35,4 @@ public class MpaDbStorage extends BaseStorage<Mpa> implements MpaStorage {
             throw new NotFoundException("Mpa with id " + id + " not found");
         }
     }
-
-    public Mpa addMpa(Mpa mpa) {
-        Integer id = insert(INSERT_MPA_QUERY, mpa.getName());
-        mpa.setId(id);
-        return mpa;
-    }
 }
