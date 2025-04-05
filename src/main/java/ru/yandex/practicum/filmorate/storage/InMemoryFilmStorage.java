@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
-@Component
+@Component("InMemoryFilmStorage")
 public class InMemoryFilmStorage implements FilmStorage {
     private final Map<Integer, Film> films = new HashMap<>();
     private final Set<Film> popularFilms = new TreeSet<>();
@@ -69,7 +69,7 @@ public class InMemoryFilmStorage implements FilmStorage {
             oldFilm.setDescription(film.getDescription());
             oldFilm.setReleaseDate(film.getReleaseDate());
             oldFilm.setDuration(film.getDuration());
-            oldFilm.setLike(film.getLike());
+            oldFilm.setLikes(film.getLikes());
             popularFilms.add(oldFilm);
             log.info("Валидация прошла, фильм успешно обновлен");
             return oldFilm;

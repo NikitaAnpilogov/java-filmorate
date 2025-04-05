@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.exception.NotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
@@ -16,19 +17,19 @@ import java.util.Collection;
 import java.util.List;
 
 public class FilmControllerTest {
-    Film normalFilm = new Film(1, "name1", "description1", LocalDate.of(2000, 1, 1), 30);
-    Film normalFilm2 = new Film(1, "name2", "description2", LocalDate.of(2000, 1, 1), 30);
-    Film normalFilm3 = new Film(1, "name3", "description3", LocalDate.of(2000, 1, 1), 30);
-    Film emptyName = new Film(1, "", "description2", LocalDate.of(2001, 1, 1), 30);
+    Film normalFilm = new Film(1, "name1", "description1", LocalDate.of(2000, 1, 1), 30, new Mpa(1, "G"));
+    Film normalFilm2 = new Film(1, "name2", "description2", LocalDate.of(2000, 1, 1), 30, new Mpa(1, "G"));
+    Film normalFilm3 = new Film(1, "name3", "description3", LocalDate.of(2000, 1, 1), 30, new Mpa(1, "G"));
+    Film emptyName = new Film(1, "", "description2", LocalDate.of(2001, 1, 1), 30, new Mpa(1, "G"));
     Film longDescription = new Film(1, "name3", "description3description3description3description3description3description3description3description3description3description3description3description3description3description3description3description3description3description3description3description3",
-            LocalDate.of(2002, 1, 1), 30);
-    Film earlyDate1 = new Film(1, "name5", "description5", LocalDate.of(1895, 12, 28), 30);
-    Film earlyDate2 = new Film(1, "name6", "description6", LocalDate.of(1895, 12, 27), 30);
-    Film earlyDate3 = new Film(1, "name7", "description7", LocalDate.of(1895, 12, 29), 30);
-    Film zeroDuration = new Film(1, "name8", "description8", LocalDate.of(2004, 1, 1), 0);
-    Film negativeDuration = new Film(1, "name9", "description9", LocalDate.of(2005, 1, 1), -10);
-    Film filmWithoutId = new Film("name10", "description10", LocalDate.of(2000, 1, 1), 30);
-    Film notFoundId = new Film(56, "name11", "description11", LocalDate.of(2000, 1, 1), 30);
+            LocalDate.of(2002, 1, 1), 30, new Mpa(1, "G"));
+    Film earlyDate1 = new Film(1, "name5", "description5", LocalDate.of(1895, 12, 28), 30, new Mpa(1, "G"));
+    Film earlyDate2 = new Film(1, "name6", "description6", LocalDate.of(1895, 12, 27), 30, new Mpa(1, "G"));
+    Film earlyDate3 = new Film(1, "name7", "description7", LocalDate.of(1895, 12, 29), 30, new Mpa(1, "G"));
+    Film zeroDuration = new Film(1, "name8", "description8", LocalDate.of(2004, 1, 1), 0, new Mpa(1, "G"));
+    Film negativeDuration = new Film(1, "name9", "description9", LocalDate.of(2005, 1, 1), -10, new Mpa(1, "G"));
+    Film filmWithoutId = new Film("name10", "description10", LocalDate.of(2000, 1, 1), 30, new Mpa(1, "G"));
+    Film notFoundId = new Film(56, "name11", "description11", LocalDate.of(2000, 1, 1), 30, new Mpa(1, "G"));
     FilmController filmController;
 
     @BeforeEach
@@ -141,7 +142,7 @@ public class FilmControllerTest {
         filmController = new FilmController(new FilmService(new InMemoryFilmStorage(), inMemoryUserStorage));
         filmController.addFilm(normalFilm);
         filmController.addLike(normalFilm.getId(), 1);
-        Assertions.assertEquals(1, normalFilm.getLike().size(), "Не лайкнули фильм");
+        Assertions.assertEquals(1, normalFilm.getLikes().size(), "Не лайкнули фильм");
     }
 
     @Test
@@ -153,7 +154,7 @@ public class FilmControllerTest {
         filmController.addFilm(normalFilm);
         filmController.addLike(normalFilm.getId(), 1);
         filmController.removeLike(normalFilm.getId(), 1);
-        Assertions.assertEquals(0, normalFilm.getLike().size(), "Не удалили лайк");
+        Assertions.assertEquals(0, normalFilm.getLikes().size(), "Не удалили лайк");
     }
 
     @Test

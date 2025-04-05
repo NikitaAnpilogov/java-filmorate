@@ -58,4 +58,9 @@ public class UserController {
     public Collection<User> getFriends(@PathVariable("id") Integer id) {
         return userService.getFriends(id);
     }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Integer id) {
+        return userService.getUser(id);
+    }
 }
