@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import ru.yandex.practicum.filmorate.mappers.GenreRowMapper;
-import ru.yandex.practicum.filmorate.model.Genre;
 
 @JdbcTest
 @AutoConfigureTestDatabase
